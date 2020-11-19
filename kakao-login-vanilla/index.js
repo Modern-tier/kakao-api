@@ -1,4 +1,4 @@
-Kakao.init("bc8b0e73cd18ca786bdfafacaa3dd53e");
+Kakao.init("");
 
 // 카카오 로그인 버튼을 생성
 Kakao.Auth.createLoginButton({
@@ -23,6 +23,7 @@ const loginWithKakao = () => {
       Kakao.Auth.login({
         success: function (authObj) {
           alert("로그인 되었습니다.");
+          console.log(Kakao.Auth.getAccessToken());
         },
         fail: function (err) {
           alert("에러 입니다");
@@ -34,6 +35,7 @@ const loginWithKakao = () => {
   }
 };
 
+// 카카오 로그아웃 함수
 const logoutWithKakao = () => {
   if (Kakao.Auth.getAccessToken()) {
     console.log(
