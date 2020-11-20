@@ -75,7 +75,11 @@ const userWithKakao = () => {
       url: "/v1/api/talk/profile",
       success: function (response) {
         console.log(response);
-        userName.innerHTML = `${response.nickName}<br> <img src="${response.profileImageURL}" width="100">`;
+        userName.innerHTML = `
+        <div style="text-align: center">
+          <span >${response.nickName}</span><br> 
+          <img src="${response.profileImageURL}" width="500">
+        </div>`;
       },
       fail: function (error) {
         console.log(error);
@@ -87,13 +91,30 @@ const userWithKakao = () => {
   }
 };
 
+// 친구 목록 가져오기 API
+const FriendsWithKakao = () => {
+  console.log("친구 목록 가져오기 API");
+  Kakao.API.request({
+    url: "/v1/api/talk/friends",
+    success: function (response) {
+      console.log(response);
+    },
+    fail: function (error) {
+      console.log("실패");
+      console.log(error);
+    },
+  });
+};
+
 // DOM
 const kakaoLoginButton = document.getElementById("kakaoLoginButton");
 const kakaoLogoutButton = document.getElementById("kakaoLogoutButton");
 const kakaoUnlinkButton = document.getElementById("kakaoUnlinkButton");
 const userName = document.getElementById("userName");
+const kakaoFriendsButton = document.getElementById("kakaoFriendsButton");
 
 kakaoLoginButton.onclick = loginWithKakao;
 kakaoLogoutButton.onclick = logoutWithKakao;
 kakaoUnlinkButton.onclick = unlinkWithKakao;
 userWithKakao();
+kakaoFriendsButton.onclick = FriendsWithKakao;
