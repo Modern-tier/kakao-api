@@ -15,24 +15,28 @@ Kakao.Auth.createLoginButton({
 
 // 카카오 로그인
 const loginWithKakao = () => {
-  try {
-    return new Promise((resolve, reject) => {
-      if (!Kakao) {
-        reject("Kakao 인스턴스가 존재하지 않습니다.");
-      }
-      Kakao.Auth.login({
-        success: function (authObj) {
-          alert("로그인 되었습니다.");
-          console.log(Kakao.Auth.getAccessToken());
-        },
-        fail: function (err) {
-          alert("에러 입니다");
-        },
-      });
-    });
-  } catch (err) {
-    console.error(err);
-  }
+  Kakao.Auth.authorize({
+    redirectUri: "http://127.0.0.1:5500/kakao-login-vanilla/index.html",
+    scope: "friends",
+  });
+  // try {
+  //   return new Promise((resolve, reject) => {
+  //     if (!Kakao) {
+  //       reject("Kakao 인스턴스가 존재하지 않습니다.");
+  //     }
+  //     Kakao.Auth.login({
+  //       success: function (authObj) {
+  //         alert("로그인 되었습니다.");
+  //         console.log(Kakao.Auth.getAccessToken());
+  //       },
+  //       fail: function (err) {
+  //         alert("에러 입니다");
+  //       },
+  //     });
+  //   });
+  // } catch (err) {
+  //   console.error(err);
+  // }
 };
 
 // 카카오 로그아웃
