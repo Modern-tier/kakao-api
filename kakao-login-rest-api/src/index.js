@@ -3,49 +3,45 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const { PORT: port } = process.env;
+const rp = require("request-promise");
 
 // 사용할 정적 디렉토리 지정
 app.use(express.static("views"));
 
 app.get("/", (req, res) => {
-  const { KAKAO_KEY } = process.env;
-  res.render("index", { apikey: KAKAO_KEY });
+  res.render("index");
 });
 
-const rp = require("request-promise");
 app.get("/auth/callback", async (req, res) => {
+  // 인가 코드
   const { code } = req.query;
   console.log(code);
+  // 토큰 받기
   const options = {
     uri: "https://kauth.kakao.com/oauth/token",
     method: "POST",
     form: {
       grant_type: "authorization_code",
-      client_id: "3888fb0f3d1eb5652a4f2ec494a1d3a7",
+      client_id: process.env.REST_API_KEY,
       redirect_uri: "http://localhost:8080/auth/callback",
       code: code,
     },
     headers: {
       "content-type": "application/x-www-form-urlencoded",
     },
+    // request-promise 의 옵션: string to json
     json: true,
   };
 
   const cb = await rp(options);
 
   if (cb["access_token"]) {
-    res.send(JSON.stringify(cb));
-    // res.render("callback", { result: 0 });
+    res.send(cb);
   } else {
-    res.send("fail");
-    // res.render("callback", { result: 1 });
+    res.send("login fail");
   }
 });
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
 });
-
-const test = () => {
-  console.log("!!!");
-};
